@@ -1,17 +1,32 @@
-import { createRouter, createWebHashHistory} from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
-    {
-        //主页面
-        path:'/',
-        name:'Home',
-        component:()=>import(/*webpackChunkName:'Home'*/ '@/views/HomeView.vue')
-    }
-]
+  {
+    path: "/",
+    component: () => import("../views/HomeView.vue"),
+    children: [
+      {
+        path: "/",
+        name: "home",
+        component: () => import("../views/HomeView.vue"),
+      },
+    ],
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/LoginView.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("../views/RegisterView.vue"),
+  },
+];
 
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes
-})
+  history: createWebHashHistory(),
+  routes,
+});
 
 export default router;
