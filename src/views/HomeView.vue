@@ -73,10 +73,5 @@
 </style>
 
 <script setup>
-import {
-  Check,
-  Edit,
-  Message,
-  Star,
-} from '@element-plus/icons-vue'
+  import {Check,Edit,Message,Star} from '@element-plus/icons-vue'
 </script>
