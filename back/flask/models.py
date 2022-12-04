@@ -49,6 +49,18 @@ class Thesis(db.Model):
     citation_num = db.Column(db.Integer)
     rating = db.Column(db.Float)
 
+    def to_dict(self):
+        data = {
+            'title': self.title,
+            'author': self.author,
+            'publication_date': self.publication_date,
+            'journal': self.journal,
+            'abstract': self.abstract,
+            'link': self.link,
+            'citation_num': self.citation_num,
+            'rating': self.rating
+        }
+        return data
 
 class Favorites(db.Model):
     __tablename__ = "favorites"
