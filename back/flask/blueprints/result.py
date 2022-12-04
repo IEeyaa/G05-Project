@@ -1,4 +1,5 @@
 # 和结果展示与分析有关的蓝图页
+# About InforView.vue and HomeView.vue
 from flask import Blueprint
 from models import Thesis
 from util import Result
