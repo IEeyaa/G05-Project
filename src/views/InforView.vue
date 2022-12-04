@@ -1,17 +1,17 @@
 <template>
     <body>
         <div class="layout">
-            <h1 id="title">TorchScale: Transformers at Scale</h1>
-            <p id="date">23 Nov 2022</p>
-            <p id="author">Shuming Ma, Hongyu Wang, Shaohan Huang, Wenhui Wang, Zewen Chi, Li Dong, Alon Benhaim, Barun Patra, Vishrav Chaudhary, Xia Song, Furu Wei</p>
-            <p id="abstract">Large Transformers have achieved state-of-the-art performance across many tasks. Most open-source libraries on scaling Transformers focus on improving training or inference with better parallelization. In this work, we present TorchScale, an open-source toolkit that allows researchers and developers to scale up Transformers efficiently and effectively. TorchScale has the implementation of several modeling techniques, which can improve modeling generality and capability, as well as training stability and efficiency. Experimental results on language modeling and neural machine translation demonstrate that TorchScale can successfully scale Transformers to different sizes without tears. The library is available at https://aka.ms/torchscale.</p>
+            <h1 id="title">{{ data['title'] }}</h1>
+            <p id="date">{{ data['publication_date'] }}</p>
+            <p id="author">{{ data['author'] }}</p>
+            <p id="abstract">{{ data['abstract'] }}</p>
             <el-tag class="tag">Language Modeling</el-tag>
             <el-tag class="tag">Machine Translation</el-tag>
             <el-tag class="tag">Translation</el-tag>
         </div>
         <div class="relatedpaper">
             <h2>相关论文</h2><el-divider border-style="dashed" />
-            <el-card shadow="hover" class="paper" @click="info">
+            <el-card shadow="hover" class="paper" @click="postd">
                 <h4 class="papertitle">SuperFusion: Multilevel LiDAR-Camera Fusion for Long-Range HD Map Generation and Prediction</h4>
                 <p class="paperdate">28 Nov 2022  ·  Hao Dong, Xianjing Zhang, Xuan Jiang, Jun Zhang, Jintao Xu, Rui Ai, Weihao Gu, Huimin Lu, Juho Kannala, Xieyuanli Chen</p>
                 <p class="paperabstract">High-definition (HD) semantic map generation of the environment is an essential component of autonomous driving. Existing methods have achieved good performance in this task by fusing different sensor modalities, such as LiDAR and camera. However, current works are based on raw data or network feature-level fusion and only consider short-range HD map...</p>
@@ -46,15 +46,27 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+    data(){
+        return {
+            data: null
+        };
+    },
+
+    created(){
+        this.getUsers();
+    },
+
     methods: {
-        info(event) {
-        if (event) {
-            this.$router.push("/info");
-        }
+        async getUsers(){
+            axios.post('http://10.192.10.179:5000/InforView').then(res=>{
+                console.log(res.data['data'][0]);
+                this.data = res.data['data'][0];
+            });
         },
-  },
-};
+    },
+}
 </script>
 
 <style scoped>
