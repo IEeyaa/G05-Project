@@ -4,7 +4,7 @@
         class="layout"
         style="margin-left: 40px; box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1)"
       >
-        <h1>Login</h1>
+        <h1 style="text-align:center">Login</h1>
         <el-form
           label-position="right"
           label-width="60px"

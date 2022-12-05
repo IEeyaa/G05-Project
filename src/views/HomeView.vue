@@ -15,7 +15,7 @@
           <h1 style="margin-left:10px">Container</h1>
           <el-scrollbar height="600px">
             <!-- 对card进行相关的设计 -->
-              <el-card v-for="item in 20" :key="item" shadow="always">
+              <el-card v-for="item in data" :key="item" shadow="always">
                 <el-row :gutter="20">
                   <!-- 图片部分 -->
                   <el-col :span="5">
@@ -26,10 +26,10 @@
                   </el-col>
                   <!-- 文字部分 -->
                   <el-col :span="13" :offset="1">
-                    <h4>ExtremeBERT: A Toolkit for Accelerating Pretraining of Customized BERT</h4>
-                    <p> extreme-bert/extreme-bert •  • 30 Nov 2022</p>
-                    <p style="color:grey">In this paper, we present ExtremeBERT, a toolkit for accelerating and customizing BERT pretraining.</p>
-                  </el-col>
+                    <h1 id="title">{{ item['title'] }}</h1>
+                    <p id="date">{{ item['publication_date'] }}</p>
+                    <p id="author">{{ item['author'] }}</p>
+                    <p id="abstract">{{ item['abstract'] }}</p></el-col>
                   <!-- 按钮部分 -->
                   <el-col :span="5">
                     <div style="text-align: -webkit-center">
@@ -71,6 +71,31 @@
 }
 
 </style>
+
+<script>
+import axios from 'axios'
+export default {
+    data(){
+        return {
+            data: null
+        };
+    },
+
+    created(){
+        this.getUsers();
+    },
+
+    methods: {
+        async getUsers(){
+            axios.get('http://10.192.10.179:5000/InforView').then(res=>{
+                console.log(res.data['data']);
+                this.data = res.data['data'];
+            });
+        },
+    },
+}
+</script>
+
 
 <script setup>
   import {Check,Edit,Message,Star} from '@element-plus/icons-vue'
