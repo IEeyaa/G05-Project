@@ -7,26 +7,26 @@ from exts import db
 
 bp = Blueprint("result", __name__, url_prefix="/")
 
-@bp.route("InforView", methods=['GET'])
-# def single():
-#     query = {}
-#     query = db.session.query(Thesis.thesis_id, Thesis.title, Thesis.author, Thesis.publication_date, Thesis.journal,
-#                              Thesis.abstract, Thesis.link, Thesis.citation_num, Thesis.rating).order_by(
-#         Thesis.thesis_id.asc()).all()
-#     res = []
-#     content = {}
-#     for i in query:
-#         content = {'thesis_id': i[0], 'title': i[1], 'author': i[2], 'publication_date': i[3], 'journal': i[4],
-#                    'abstract': i[5], 'link': i[6], 'citation_num': i[7], 'rating': i[8]}
-#         res.append(content)
-#         content = {}
-#     print(res)
-#     return Result.success(res)
 
+@bp.route("InforView", methods=['GET', 'POST'])
 def return_data():
-    all_thesis = db.session.query(Thesis).all()
-    alldata = []
-    for single_thesis in all_thesis:
-        single_data = Thesis.to_dict(single_thesis)
-        alldata.append(single_data)
-    return Result.success(alldata)
+    # get请求，用于Home
+    if request.method == 'GET':
+        all_thesis = db.session.query(Thesis).all()
+        alldata = []
+        for single_thesis in all_thesis:
+            single_data = Thesis.to_dict(single_thesis)
+            alldata.append(single_data)
+        return Result.success(alldata)
+    # post请求，用于Infor
+    else:
+        data = request.get_json()
+        if not data:
+            return Result.error(400, 'POST 必须是json数据')
+        thesis_id = data.get('thesis_id', None)
+        all_thesis = Thesis.query.filter_by(thesis_id=thesis_id).all()
+        alldata = []
+        for single_thesis in all_thesis:
+            single_data = Thesis.to_dict(single_thesis)
+            alldata.append(single_data)
+        return Result.success(alldata)

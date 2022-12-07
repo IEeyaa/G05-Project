@@ -1,5 +1,6 @@
 from flask import jsonify
 
+
 class Result:
     @staticmethod
     def error(code, message):

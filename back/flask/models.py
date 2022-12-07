@@ -22,17 +22,22 @@ class User(db.Model):
         }
         return data
 
-    def from_dict(self, data, new_user=False):
+    def from_dict(self, data, new_user=False, id=-1):
         """
         将前端发送过来的 json 对象转换为 User 对象
+        :param id:
         :param data:
         :param new_user:
         :return:
         """
 
+        self.user_id = id
         for field in ['username', 'email']:
             if field in data:
-                setattr(self, field, data[field])
+                if field == 'username':
+                    setattr(self, 'user_name', data[field])
+                else:
+                    setattr(self, field, data[field])
             if new_user and 'password' in data:
                 self.password = data['password']
 
@@ -51,6 +56,7 @@ class Thesis(db.Model):
 
     def to_dict(self):
         data = {
+            'thesis_id': self.thesis_id,
             'title': self.title,
             'author': self.author,
             'publication_date': self.publication_date,
@@ -61,6 +67,7 @@ class Thesis(db.Model):
             'rating': self.rating
         }
         return data
+
 
 class Favorites(db.Model):
     __tablename__ = "favorites"
