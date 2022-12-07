@@ -35,7 +35,7 @@
                     <div style="text-align: -webkit-center">
                       <el-button type="warning" :icon="Star" round>收藏</el-button>
                       <p style="color:grey">Likes: 114514/hour</p>
-                      <el-button type="primary" style="width:150px">Paper</el-button>
+                      <el-button type="primary" style="width:150px" @click="toInfor(item['id'])">Paper</el-button>
                       <el-button type="success" style="width:150px">Code</el-button>
                     </div>
                   </el-col>
@@ -73,7 +73,6 @@
 </style>
 
 <script>
-import axios from 'axios'
 export default {
     data(){
         return {
@@ -87,11 +86,21 @@ export default {
 
     methods: {
         async getUsers(){
-            axios.get('http://10.192.10.179:5000/InforView').then(res=>{
+            this.$http.get('/InforView').then(res=>{
                 console.log(res.data['data']);
                 this.data = res.data['data'];
             });
         },
+
+        async toInfor(id){
+          console.log("woc");
+          this.$router.push({
+            path: '/Infor',
+            query: {
+              id: id
+            }
+          })
+        }
     },
 }
 </script>

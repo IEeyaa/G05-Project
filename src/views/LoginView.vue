@@ -12,10 +12,10 @@
           class="loginForm"
         >
           <el-form-item label="账号：">
-            <el-input v-model="username" />
+            <el-input v-model="loginForm.rName" />
           </el-form-item>
           <el-form-item label="密码：">
-            <el-input type="password" v-model="password" />
+            <el-input type="password" v-model="loginForm.rPassword" />
           </el-form-item>
           <el-row class="loginBtn">
             <el-button
@@ -46,15 +46,37 @@
   
   <script>
   export default {
-    data() {},
-    methods: {
-      register(event) {
-        if (event) {
-          this.$router.push("/register");
+    data(){
+      return{
+        loginForm: {
+          rName: "",
+          rPassword: ""
+        },
+        rules: {
+          rName: [
+            { required: true, message: '请输入姓名', trigger: 'blur' },
+          ],
+          rPassword:[
+            { required: true, message: '请输入金额', trigger: 'blur' },     
+          ],
         }
-      },
+      }
     },
-  };
+
+    methods: {
+      login(){
+        this.$http.post('/LoginView',this.loginForm).then(red=>{
+          console.log(red.data);
+          if(red.data['message'] == "success"){
+            this.$router.push("/")
+          }
+          else{
+            alert(red.data['message']);
+          }
+        });
+      },
+    }
+  }
   </script>
   
   <style scoped>
