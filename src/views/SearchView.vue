@@ -3,12 +3,14 @@
 
     <el-row :gutter="20">
         <el-col :span="16" :offset="4">
-                <el-input v-model="word" placeholder="请搜索">
+                <el-input v-model="transform.word" placeholder="请搜索">
                     <template #append>
-                        <el-button style="margin-left:-20px; margin-top: 0px; 
+                        <el-button 
+                        style="margin-left: -20px; 
+                        margin-top: 0px; 
                         height: 60px;
                         width: 70px;
-                        font-size:40px;" @click="search" :icon="Search" round/>
+                        font-size: 40px;" @click="search" :icon="Search" round/>
                     </template>
                 </el-input>
         </el-col>
@@ -29,10 +31,8 @@
                     </el-col>
                     <!-- 文字部分 -->
                     <el-col :span="13" :offset="1">
-                    <h1 id="title">{{ item['title'] }}</h1>
-                    <p id="date">{{ item['publication_date'] }}</p>
-                    <p id="author">{{ item['author'] }}</p>
-                    <p id="abstract">{{ item['abstract'] }}</p></el-col>
+                    <h1 id="title" v-html="item['title']"></h1>
+                    <p id="abstract" v-html="item['abstract']"></p></el-col>
                     <!-- 按钮部分 -->
                     <el-col :span="5">
                     <div style="text-align: -webkit-center">
@@ -54,19 +54,33 @@ import { Search } from '@element-plus/icons-vue'
 </script>
 
 <script>
-  export default {
+    export const heightLight = (str, key) => {
+        if(str.length >= 200) str = str.substring(0, 200) + "...";
+        const reg = new RegExp(key, 'ig')
+        return str.replace(reg, `<span style="color:#66CCFF">${key}</span>`)
+    }
+    export default {
     data(){
-      return{
-        word: null,
+        return{
+        transform: {
+            word: ""
+        },
         data: null,
         showResult: false,
-      }
+        }
     },
     methods: {
+        cSuggestions(suggestions){
+            suggestions.map(item => {
+                item['title'] = heightLight(item['title'], this.transform.word)
+                item['abstract'] = heightLight(item['abstract'], this.transform.word)
+            })
+            this.data = suggestions;
+        },
         search(){
-            this.$http.post('/SearchView', this.word).then(res=>{
+            this.$http.post('/SearchView', this.transform).then(res=>{
                 this.showResult = true;
-                this.data = res.data['data'];
+                this.cSuggestions(res.data['data']);
             });
         },
     }
