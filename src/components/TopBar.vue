@@ -20,8 +20,9 @@
       active-text-color="#ffd04b"
       popper-effect="light"
       @select="handleSelect"
+      router
     >
-      <el-menu-item index="1"> 论文导航 </el-menu-item>
+      <el-menu-item index="/search"> 论文搜索 </el-menu-item>
       <el-menu-item index="2"> 论文比较 </el-menu-item>
       <el-menu-item index="3"> 用户中心 </el-menu-item>
     </el-menu>
