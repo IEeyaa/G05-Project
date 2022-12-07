@@ -11,7 +11,7 @@
         </div>
         <div class="relatedpaper">
             <h2>相关论文</h2><el-divider border-style="dashed" />
-            <el-card shadow="hover" class="paper" @click="postd">
+            <el-card shadow="hover" class="paper" @click="info">
                 <h4 class="papertitle">SuperFusion: Multilevel LiDAR-Camera Fusion for Long-Range HD Map Generation and Prediction</h4>
                 <p class="paperdate">28 Nov 2022  ·  Hao Dong, Xianjing Zhang, Xuan Jiang, Jun Zhang, Jintao Xu, Rui Ai, Weihao Gu, Huimin Lu, Juho Kannala, Xieyuanli Chen</p>
                 <p class="paperabstract">High-definition (HD) semantic map generation of the environment is an essential component of autonomous driving. Existing methods have achieved good performance in this task by fusing different sensor modalities, such as LiDAR and camera. However, current works are based on raw data or network feature-level fusion and only consider short-range HD map...</p>
@@ -46,25 +46,22 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     data(){
         return {
-            data: null
+            data: null,
         };
     },
 
     created(){
-        this.getUsers();
+        this.getInfor();
     },
-
     methods: {
-        async getUsers(){
-            axios.post('http://10.192.10.179:5000/InforView').then(res=>{
-                console.log(res.data['data'][0]);
+        async getInfor(){
+            this.$http.post('/InforView',{thesis_id: this.$route.query.id}).then(res=>{
                 this.data = res.data['data'][0];
-            });
-        },
+            })
+      },
     },
 }
 </script>
