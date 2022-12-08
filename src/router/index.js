@@ -4,7 +4,7 @@ const routes = [
   {
     path: "/",
     name: "mainHome",
-    component: () => import("../views/HomeView.vue"),
+    component: () => import("../views/CompareView.vue"),
   },
   {
     path: "/Infor",
@@ -26,6 +26,11 @@ const routes = [
     name: "search",
     component: () => import("../views/SearchView.vue"),
   },
+  {
+    path: "/compare",
+    name: "compare",
+    component: () => import("../views/CompareView.vue"),
+  }
 ];
 
 const router = createRouter({

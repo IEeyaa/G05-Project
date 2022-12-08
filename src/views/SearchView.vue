@@ -1,6 +1,5 @@
 <!-- for search -->
 <template>
-
     <el-row :gutter="20">
         <el-col :span="16" :offset="4">
                 <el-input v-model="transform.word" placeholder="请搜索">
