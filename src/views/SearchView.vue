@@ -54,10 +54,12 @@ import { Search } from '@element-plus/icons-vue'
 </script>
 
 <script>
-    export const heightLight = (str, key) => {
+    export const highLight = (str, key) => {
         if(str.length >= 200) str = str.substring(0, 200) + "...";
         const reg = new RegExp(key, 'ig')
-        return str.replace(reg, `<span style="color:#66CCFF">${key}</span>`)
+        return str.replace(reg, (val) => {
+            return `<span style="color:#66CCFF">${val}</span>`
+        })
     }
     export default {
     data(){
@@ -72,8 +74,8 @@ import { Search } from '@element-plus/icons-vue'
     methods: {
         cSuggestions(suggestions){
             suggestions.map(item => {
-                item['title'] = heightLight(item['title'], this.transform.word)
-                item['abstract'] = heightLight(item['abstract'], this.transform.word)
+                item['title'] = highLight(item['title'], this.transform.word)
+                item['abstract'] = highLight(item['abstract'], this.transform.word)
             })
             this.data = suggestions;
         },
