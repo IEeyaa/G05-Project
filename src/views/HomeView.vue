@@ -7,10 +7,10 @@
       <el-row :gutter="20">
         <el-col :span="20" :offset="2">
           <el-row>
-            <el-button type="primary" :icon="Document" @click=toSort(1) round>Normal</el-button>
-            <el-button type="success" :icon="Star" @click=toSort(2) round>Title</el-button>
-            <el-button type="info" :icon="Calendar" @click=toSort(3) round>New</el-button>
-            <el-button type="warning" :icon="Trophy" @click=toSort(4) round>Greatest</el-button>
+            <el-button type="primary" :icon="Document" @click="toSort('thesis_id', 1)" round>Normal</el-button>
+            <el-button type="success" :icon="Star" @click="toSort('title', 1)" round>Title</el-button>
+            <el-button type="info" :icon="Calendar" @click="toSortTime('publication_date', -1)" round>New</el-button>
+            <el-button type="warning" :icon="Trophy" @click="toSort('citation_num', -1)" round>Greatest</el-button>
           </el-row>
           <h1 style="margin-left:10px">Container</h1>
           <!-- 其实后续可以考虑一下要不要删掉scrollbar 感觉好tm难看 -->
@@ -35,9 +35,9 @@
                   <!-- 按钮部分 -->
                   <el-col :span="5">
                     <div style="text-align: -webkit-center">
-                      <el-button type="warning" :icon="Star" round>Like</el-button>
+                      <el-button type="warning" :icon="Star" @click="like(item['thesis_id'])" round>Like</el-button>
                       <p style="color:grey">Likes: 114514/hour</p>
-                      <el-button type="primary" style="width:150px" @click="toInfor(item['id'])">Paper</el-button>
+                      <el-button type="primary" style="width:150px" @click="toInfor(item['thesis_id'])">详情</el-button>
                       <el-button type="success" style="width:150px">Code</el-button>
                     </div>
                   </el-col>
@@ -89,9 +89,10 @@ export default {
     data(){
         return {
             data: null,
-            rule: {
-              rule: ""
-            }
+            favor: {
+              thesis_id: "",
+              user_id: "",
+            },
         };
     },
 
@@ -116,12 +117,21 @@ export default {
           })
         },
 
-        async toSort(rule){
-          this.rule['rule'] = rule;
-          this.$http.post('/HomeView', this.rule).then(res=>{
-              console.log(res.data['data']);
-              this.data = res.data['data'];
-          });
+        async toSort(rule, direction){
+          this.data = this.data.sort((a, b) => (a[rule] > b[rule])?direction:-direction);
+        },
+
+        async toSortTime(rule, direction){
+          this.data = this.data.sort((a, b) => (new Date(a[rule]).getTime() > new Date(b[rule]).getTime())?direction:-direction);
+        },
+
+        async like(thesis_id, user_id=-1){
+            this.favor['user_id'] = user_id;
+            this.favor['thesis_id'] = thesis_id;
+            this.$http.post('/HomeView', this.favor).then(res=>{
+              if(res.data['message'] == "OK") alert("收藏成功");
+              else alert(res.data['message']);
+            });
         }
     },
 }

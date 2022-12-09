@@ -12,31 +12,31 @@
           class="loginForm"
         >
           <el-form-item label="用户名">
-            <el-input v-model="rName" />
+            <el-input v-model="registerForm.user_name" />
           </el-form-item>
           <el-form-item label="邮箱：">
-            <el-input v-model="rEmail" />
+            <el-input v-model="registerForm.email" />
           </el-form-item>
           <el-form-item label="密码：">
-            <el-input type="password" v-model="rPassword" />
+            <el-input type="password" v-model="registerForm.password" />
           </el-form-item>
           <el-form-item label="确认密码：">
             <el-input
               type="password"
-              v-model="confirmPassword"
+              v-model="registerForm.confirmPassword"
               @blur="confirmFunc"
             />
           </el-form-item>
           <el-row>
             <el-checkbox
               class="checkBox"
-              v-model="rAgree"
+              v-model="registerForm.rAgree"
               label="同意用户使用准则"
               name="type"
             />
           </el-row>
           <el-button
-            v-if="rAgree"
+            v-if="registerForm.rAgree"
             type="primary"
             style="width: 96%; margin-bottom: 15px"
             class="loginBtn"
@@ -51,64 +51,41 @@
     </body>
   </template>
   
-  <script>
-  import { reactive, toRefs } from "@vue/reactivity";
-  import { ElMessage } from "element-plus";
-  import axios from 'axios'
+
+<script>
+import { ElMessage } from "element-plus";
   export default {
-    created(){
-        this.getUsers();
-      },
-    methods:{
-      async getUsers(){
-            axios.get('http://10.192.10.179:5000/RegisterView'
-            ).then(res=>{
-                console.log(res.data['data'][0]);
-                this.data = res.data['data'][0];
-            });
+    data(){
+      return{
+        registerForm: {
+          user_name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          identifyCode: "",
+          rAgree: 0,
         },
+      }
     },
-    setup() {
-      const registerForm = reactive({
-        rName: "",
-        rEmail: "",
-        rPassword: "",
-        confirmPassword: "",
-        identifyCode: "",
-        rAgree: 0,
-      });
-      function register() {
-        axios.post('http://10.192.10.179:5000/RegisterView',
-        {
-          "username": registerForm.rName,
-          "email": registerForm.rEmail,
-          "password": registerForm.rPassword
-        }).then(red=>{
+
+    methods: {
+      register(){
+        this.$http.post('/RegisterView',this.registerForm).then(red=>{
           console.log(red.data);
           if(red.data['message'] == "success"){
-            this.$router.push("/login")
+            this.$router.push("/")
           }
           else{
             alert(red.data['message']);
           }
         });
-      }
-      // 获取验证码
-      function getIdentifyCode() {
-        console.log("获取验证码");
-      }
-      const confirmFunc = () => {
-        if ( registerForm.confirmPassword !==  registerForm.rPassword)
+      },
+      confirmFunc(){
+        if ( this.registerForm.confirmPassword !==  this.registerForm.password)
           ElMessage.error("密码与确认密码不一致.");
-      };
-      return {
-        ...toRefs( registerForm),
-        register,
-        getIdentifyCode,
-        confirmFunc,
-      };
-    },
-  };
+      },
+    }
+  }
   </script>
   
   <style scoped>

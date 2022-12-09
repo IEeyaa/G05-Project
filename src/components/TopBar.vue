@@ -23,7 +23,7 @@
       router
     >
       <el-menu-item index="/search"> 论文搜索 </el-menu-item>
-      <el-menu-item index="2"> 论文比较 </el-menu-item>
+      <el-menu-item index="/compare"> 论文比较 </el-menu-item>
       <el-menu-item index="3"> 用户中心 </el-menu-item>
     </el-menu>
   </template>
