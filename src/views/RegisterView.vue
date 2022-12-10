@@ -73,7 +73,7 @@ import { ElMessage } from "element-plus";
         this.$http.post('/RegisterView',this.registerForm).then(red=>{
           console.log(red.data);
           if(red.data['message'] == "success"){
-            this.$router.push("/")
+            this.$router.push("/login")
           }
           else{
             alert(red.data['message']);
