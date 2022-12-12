@@ -91,7 +91,7 @@ export default {
             data: null,
             favor: {
               thesis_id: "",
-              user_id: "",
+              user_name: "",
             },
         };
     },
@@ -103,7 +103,6 @@ export default {
     methods: {
         async getUsers(){
             this.$http.get('/HomeView').then(res=>{
-                console.log(res.data['data']);
                 this.data = res.data['data'];
             });
         },
@@ -125,9 +124,10 @@ export default {
           this.data = this.data.sort((a, b) => (new Date(a[rule]).getTime() > new Date(b[rule]).getTime())?direction:-direction);
         },
 
-        async like(thesis_id, user_id=-1){
-            this.favor['user_id'] = user_id;
+        async like(thesis_id){
+            this.favor['user_name'] = (this.$cookies.get('name') == null) ? -1 : this.$cookies.get('name');
             this.favor['thesis_id'] = thesis_id;
+            console.log(this.favor);
             this.$http.post('/HomeView', this.favor).then(res=>{
               if(res.data['message'] == "OK") alert("收藏成功");
               else alert(res.data['message']);

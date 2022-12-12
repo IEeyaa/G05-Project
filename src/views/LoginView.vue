@@ -12,10 +12,10 @@
           class="loginForm"
         >
           <el-form-item label="账号：">
-            <el-input v-model="loginForm.rName" />
+            <el-input v-model="loginForm.username" />
           </el-form-item>
           <el-form-item label="密码：">
-            <el-input type="password" v-model="loginForm.rPassword" />
+            <el-input type="password" v-model="loginForm.password" />
           </el-form-item>
           <el-row class="loginBtn">
             <el-button
@@ -49,8 +49,8 @@
     data(){
       return{
         loginForm: {
-          rName: "",
-          rPassword: ""
+          username: "",
+          password: ""
         },
         rules: {
           rName: [
@@ -68,7 +68,8 @@
         this.$http.post('/LoginView',this.loginForm).then(red=>{
           console.log(red.data);
           if(red.data['message'] == "success"){
-            this.$router.push("/")
+            this.$cookies.set("name", this.loginForm['username'], {expires: "1D"});
+            this.$router.push("/");
           }
           else{
             alert(red.data['message']);
