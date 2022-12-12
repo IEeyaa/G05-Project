@@ -42,6 +42,29 @@ LOCK TABLES `favorites` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `keyword`
+--
+
+DROP TABLE IF EXISTS `keyword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `keyword` (
+  `data` varchar(50) NOT NULL,
+  PRIMARY KEY (`data`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `keyword`
+--
+
+LOCK TABLES `keyword` WRITE;
+/*!40000 ALTER TABLE `keyword` DISABLE KEYS */;
+INSERT INTO `keyword` VALUES ('action recognition'),('active learning'),('adaptive learning'),('adversarial attacks'),('adversarial learning'),('adversarial networks'),('adversarial training'),('anomaly detection'),('artificial neural networks'),('attention based'),('attention model'),('attention networks'),('bayesian'),('bayesian deep learning'),('bayesian inference'),('bayesian learning'),('bayesian model'),('bayesian network'),('bayesian neural networks'),('bayesian optimization'),('belief network'),('capsule networks'),('classification based'),('classification learning'),('classification models'),('classification networks'),('clustering'),('collaborative learning'),('community detection'),('component analysis'),('continual learning'),('convolutional networks'),('convolutional neural networks'),('data augmentation'),('data learning'),('deep complex networks'),('deep feature'),('deep generative'),('deep graph'),('deep learning'),('deep learning networks'),('deep networks'),('deep neural networks'),('deep reinforcement learning'),('deep semantic'),('deep video'),('detection algorithm'),('detection models'),('dictionary learning'),('discriminative learning'),('distributed learning'),('distribution learning'),('domain adaptation'),('embedding'),('embedding learning'),('ensemble learning'),('event detection'),('face detection'),('face recognition'),('feature extraction'),('feature learning'),('feature selection'),('federated learning'),('few-shot learning'),('generative adversarial network'),('generative learning'),('generative models'),('gradient descent'),('graph based'),('graph convolutional networks'),('graph learning'),('graph network'),('graph neural networks'),('graphical models'),('hierarchical neural'),('image analysis'),('image captioning'),('image classification'),('image compression'),('image features extraction'),('image generation'),('image models'),('image processing'),('image recognition'),('image reconstruction'),('image retrieval'),('image segmentation'),('image synthesis'),('images learning'),('imitation learning'),('incremental learning'),('inference'),('inference networks'),('joint learning'),('kernel learning'),('language detection'),('language generation'),('language learning'),('language modeling'),('language models'),('language understanding'),('learning algorithms'),('learning approach'),('learning based'),('learning classifier'),('learning framework'),('learning model'),('learning rate'),('learning real-time'),('learning vector'),('lifelong learning'),('linear models'),('machine learning'),('manifold learning'),('markov model'),('memory network'),('metric learning'),('model adaptation'),('model compression'),('model selection'),('models learning'),('multi-task learning'),('multi-view learning'),('named entity recognition'),('natural language inference'),('natural language processing'),('network algorithm'),('network compression'),('network embedding'),('network flow'),('network modeling'),('network models'),('network predictions'),('network representation learning'),('networks estimation'),('networks graph'),('neural architecture search'),('neural image'),('neural language models'),('neural machine'),('neural machine translation'),('neural model'),('neural network architectures'),('neural network training'),('neural networks'),('object recognition'),('object segmentation'),('online learning'),('policy learning'),('pose estimation'),('prediction'),('prediction model'),('probabilistic models'),('question answering'),('reasoning learning'),('recognition learning'),('recognition network'),('recurrent neural networks'),('regression'),('regression model'),('regression network'),('reinforcement learning'),('representation learning'),('residual learning'),('residual networks'),('segmentation networks'),('semantic'),('semantic models'),('semantic segmentation'),('semantics learning'),('semi-supervised learning'),('sentiment analysis'),('sentiment classification'),('sequence learning'),('similarity learning'),('speech recognition'),('spiking neural networks'),('state networks'),('stochastic gradient'),('stochastic optimization'),('structure learning'),('temporal difference learning'),('tensor networks'),('text classification'),('text detection'),('time series'),('transfer learning'),('translation learning'),('unsupervised domain'),('unsupervised learning'),('variational inference'),('word embeddings'),('word representations'),('zero-shot learning');
+/*!40000 ALTER TABLE `keyword` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `thesis`
 --
 
@@ -106,4 +129,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-03 19:39:40
+-- Dump completed on 2022-12-12 14:48:01
