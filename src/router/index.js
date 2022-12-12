@@ -30,7 +30,34 @@ const routes = [
     path: "/compare",
     name: "compare",
     component: () => import("../views/CompareView.vue"),
-  }
+  },
+  {
+    path: "/main",
+    name: "main",
+    component: () => import("../views/MainView.vue"),
+    children: [
+      {
+        path: "showinfo",
+        name: "showinfo",
+        component: () => import("../components-main/ShowInfo.vue"),
+      },
+      {
+        path: "infoeditor",
+        name: "infoeditor",
+        component: () => import("../components-main/InfoEditor.vue"),
+      },
+      {
+        path: "accounteditor",
+        name: "accounteditor",
+        component: () => import("../components-main/AccountEditor.vue"),
+      },
+      {
+        path: "myarticle",
+        name: "myarticle",
+        component: () => import("../components-main/MyArticle.vue"),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
