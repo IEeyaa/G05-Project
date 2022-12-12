@@ -5,6 +5,7 @@
             <p id="date">{{ data['publication_date'] }}</p>
             <p id="author">{{ data['author'] }}</p>
             <p id="abstract">{{ data['abstract'] }}</p>
+            <el-button type="warning" :icon="Star" @click="like(data['thesis_id'])" round>Like</el-button>
             <el-tag class="tag">Language Modeling</el-tag>
             <el-tag class="tag">Machine Translation</el-tag>
             <el-tag class="tag">Translation</el-tag>
@@ -50,6 +51,10 @@ export default {
     data(){
         return {
             data: null,
+            favor: {
+              thesis_id: "",
+              user_name: "",
+            },
         };
     },
 
@@ -61,9 +66,22 @@ export default {
             this.$http.post('/InforView',{thesis_id: this.$route.query.id}).then(res=>{
                 this.data = res.data['data'][0];
             })
-      },
+        },
+        async like(thesis_id){
+            this.favor['user_name'] = (this.$cookies.get('name') == null) ? -1 : this.$cookies.get('name');
+            this.favor['thesis_id'] = thesis_id;
+            console.log(this.favor);
+            this.$http.post('/HomeView', this.favor).then(res=>{
+              if(res.data['message'] == "success") alert("收藏成功");
+              else alert(res.data['message']);
+            });
+        },
     },
 }
+</script>
+
+<script setup>
+  import {Star} from '@element-plus/icons-vue'
 </script>
 
 <style scoped>

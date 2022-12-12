@@ -57,8 +57,8 @@
         }
     );
   export default {
-      // 登录/进入用户界面
       methods: {
+        // 登录/进入用户界面
         toInfor(){
           if(this.$cookies.get('name') == null) this.$router.push("/login");
           else this.$router.push("/Infor");

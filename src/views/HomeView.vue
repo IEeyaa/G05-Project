@@ -12,7 +12,7 @@
             <el-button type="info" :icon="Calendar" @click="toSortTime('publication_date', -1)" round>New</el-button>
             <el-button type="warning" :icon="Trophy" @click="toSort('citation_num', -1)" round>Greatest</el-button>
           </el-row>
-          <h1 style="margin-left:10px">Container</h1>
+          <h1 style="margin-left:10px; margin-top: 40px;">{{ display }}</h1>
           <!-- 其实后续可以考虑一下要不要删掉scrollbar 感觉好tm难看 -->
           <el-scrollbar height="800px">
             <!-- 对card进行相关的设计 -->
@@ -73,7 +73,7 @@
 }
 
 .el-card{
-  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 </style>
@@ -89,6 +89,7 @@ export default {
     data(){
         return {
             data: null,
+            display: "Normal Display",
             favor: {
               thesis_id: "",
               user_name: "",
@@ -118,10 +119,14 @@ export default {
 
         async toSort(rule, direction){
           this.data = this.data.sort((a, b) => (a[rule] > b[rule])?direction:-direction);
+          if(rule == "thesis_id") this.display = "Normal Display";
+          else if(rule == "title") this.display = "Title Sorting";
+          else if(rule == "citation_num") this.display = "Most References";
         },
 
         async toSortTime(rule, direction){
           this.data = this.data.sort((a, b) => (new Date(a[rule]).getTime() > new Date(b[rule]).getTime())?direction:-direction);
+          this.display = "New Paper";
         },
 
         async like(thesis_id){
@@ -129,7 +134,7 @@ export default {
             this.favor['thesis_id'] = thesis_id;
             console.log(this.favor);
             this.$http.post('/HomeView', this.favor).then(res=>{
-              if(res.data['message'] == "OK") alert("收藏成功");
+              if(res.data['message'] == "success") alert("收藏成功");
               else alert(res.data['message']);
             });
         }
