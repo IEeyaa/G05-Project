@@ -2,14 +2,10 @@
   <div>
     <el-container style="height: 600px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: white">
-        <el-menu :default-openeds="['1']">
+        <el-menu default-active = "1-1">
           <el-submenu index="1">
-            <template #title>
-              <el-icon><location /></el-icon>
-              <span>Navigator One</span>
-            </template>
             <el-menu-item-group>
-              <router-link class="alink" to="/main/showinfo">
+              <router-link class="alink" to="/main/">
                 <el-menu-item index="1-1"> 基本信息 </el-menu-item>
               </router-link>
 

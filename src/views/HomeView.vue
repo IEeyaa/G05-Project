@@ -13,8 +13,6 @@
             <el-button type="warning" :icon="Trophy" @click="toSort('citation_num', -1)" round>Greatest</el-button>
           </el-row>
           <h1 style="margin-left:10px; margin-top: 40px;">{{ display }}</h1>
-          <!-- 其实后续可以考虑一下要不要删掉scrollbar 感觉好tm难看 -->
-          <el-scrollbar height="800px">
             <!-- 对card进行相关的设计 -->
               <el-card v-for="item in data" :key="item" shadow="always">
                 <el-row :gutter="20">
@@ -43,7 +41,15 @@
                   </el-col>
                 </el-row>
               </el-card>
-          </el-scrollbar>
+
+              <el-pagination
+                class="page"
+                layout="prev, pager, next"
+                :total="6000"
+                @current-change="pageswitch()"
+                v-model:current-page="currentPage"
+              />
+
         </el-col>
         <el-col :span="2"></el-col>
       </el-row>
@@ -79,15 +85,14 @@
 </style>
 
 <script>
-
 export const strcut = (str) => {
         if(str.length >= 200) str = str.substring(0, 200) + "...";
         return str;
     }
-
 export default {
     data(){
         return {
+            currentPage: 1,
             data: null,
             display: "Normal Display",
             favor: {
@@ -103,11 +108,8 @@ export default {
 
     methods: {
         async getUsers(){
-            this.$http.get('/HomeView').then(res=>{
-                this.data = res.data['data'];
-            });
+            this.pageswitch();
         },
-
         async toInfor(id){
           this.$router.push({
             path: '/Infor',
@@ -116,7 +118,13 @@ export default {
             }
           })
         },
-
+        async pageswitch(){
+            this.$http.get('/HomeView', {
+              params: {'page': this.currentPage}
+            }).then(res=>{
+                this.data = res.data['data'];
+            });
+        },
         async toSort(rule, direction){
           this.data = this.data.sort((a, b) => (a[rule] > b[rule])?direction:-direction);
           if(rule == "thesis_id") this.display = "Normal Display";
@@ -132,7 +140,6 @@ export default {
         async like(thesis_id){
             this.favor['user_name'] = (this.$cookies.get('name') == null) ? -1 : this.$cookies.get('name');
             this.favor['thesis_id'] = thesis_id;
-            console.log(this.favor);
             this.$http.post('/HomeView', this.favor).then(res=>{
               if(res.data['message'] == "success") alert("收藏成功");
               else alert(res.data['message']);
