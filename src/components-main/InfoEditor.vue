@@ -10,7 +10,7 @@
       <el-form-item
         style="width: 49%"
         label="用户名"
-        prop="name"
+        prop="new_name"
         :rules="[
           {
             required: true,
@@ -20,11 +20,11 @@
           { min: 3, max: 15, message: '长度在 3 到 5 个字符', trigger: 'blur' },
         ]"
       >
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input v-model="ruleForm.new_name"></el-input>
       </el-form-item>
       <br />
       <el-form-item label="性别" prop="region">
-        <el-select v-model="ruleForm.sex" placeholder="请选择性别">
+        <el-select v-model="sex" placeholder="请选择性别">
           <el-option label="男" value="shanghai"></el-option>
           <el-option label="女" value="beijing"></el-option>
         </el-select>
@@ -37,10 +37,10 @@
         :rules="[
           {
             required: false,
-            message: '请注意长度在3~20个字符',
+            message: '请注意长度在2~20个字符',
             trigger: 'blur',
           },
-          { min: 3, max: 20, message: '长度在 3 到 5 个字符', trigger: 'blur' },
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
         ]"
       >
         <el-input v-model="ruleForm.city"></el-input>
@@ -102,21 +102,29 @@ export default {
   data() {
     return {
       ruleForm: {
-        name: "",
-        sex: "男",
+        old_name: "",
+        new_name: "",
         email: "",
         city: "",
         motto: "",
       },
+      sex: "",
     };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.ruleForm.old_name = this.$cookies.get('name')
+          this.$http.post('/UserView', this.ruleForm).then(res=>{
+              if(res.data['message'] == "success"){
+                alert("修改成功");
+                this.$cookies.set('name', this.ruleForm.new_name, {expires: "1D"}) 
+                this.$router.go(0);
+              }
+              else alert(res.data['message']);
+            });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

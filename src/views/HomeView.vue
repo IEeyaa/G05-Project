@@ -18,10 +18,7 @@
                 <el-row :gutter="20">
                   <!-- 图片部分 -->
                   <el-col :span="5">
-                    <img
-                      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                      class="image"
-                    />
+                    <img :src="item['image_link']" class="image">
                   </el-col>
                   <!-- 文字部分 -->
                   <el-col :span="13" :offset="1">
@@ -34,9 +31,9 @@
                   <el-col :span="5">
                     <div style="text-align: -webkit-center">
                       <el-button type="warning" :icon="Star" @click="like(item['thesis_id'])" round>Like</el-button>
-                      <p style="color:grey">Likes: 114514/hour</p>
+                      <p style="color:grey">{{ "citation: " + item['citation_num'] + " times" }}</p>
                       <el-button type="primary" style="width:150px" @click="toInfor(item['thesis_id'])">详情</el-button>
-                      <el-button type="success" style="width:150px">Code</el-button>
+                      <el-button type="success" style="width:150px" @click="toLink(item['link'])">PDF</el-button>
                     </div>
                   </el-col>
                 </el-row>
@@ -45,7 +42,7 @@
               <el-pagination
                 class="page"
                 layout="prev, pager, next"
-                :total="6000"
+                :total="4396"
                 @current-change="pageswitch()"
                 v-model:current-page="currentPage"
               />
@@ -77,7 +74,11 @@
   margin-left: 10px;
   margin-top: 20px;
 }
-
+.image{
+  margin-top: 40px;
+  height: 150px; 
+  width: 250px;
+}
 .el-card{
   margin-bottom: 50px;
 }
@@ -110,6 +111,7 @@ export default {
         async getUsers(){
             this.pageswitch();
         },
+
         async toInfor(id){
           this.$router.push({
             path: '/Infor',
@@ -118,6 +120,9 @@ export default {
             }
           })
         },
+        async toLink(link){
+          window.open(link, '_blank')
+        },
         async pageswitch(){
             this.$http.get('/HomeView', {
               params: {'page': this.currentPage}
@@ -125,6 +130,7 @@ export default {
                 this.data = res.data['data'];
             });
         },
+
         async toSort(rule, direction){
           this.data = this.data.sort((a, b) => (a[rule] > b[rule])?direction:-direction);
           if(rule == "thesis_id") this.display = "Normal Display";

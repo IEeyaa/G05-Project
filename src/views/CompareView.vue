@@ -4,11 +4,11 @@
     </el-button>
     <el-dialog v-model="dialogTableVisible" title="评价体系">
         <div class="slider-demo-block">
-            <span class="demonstration">作者名气</span>
+            <span class="demonstration">关键词联系</span>
             <el-slider v-model="value.author" :step="10" />
         </div>
         <div class="slider-demo-block">
-            <span class="demonstration">文章引用</span>
+            <span class="demonstration">文章引用量</span>
             <el-slider v-model="value.citation" :step="10" />
         </div>
         <div class="slider-demo-block">
@@ -25,10 +25,7 @@
                 <el-input v-model="input1.thesis_id" placeholder="请输入论文序号" />
                 <div><el-button style="margin-top: 10px;" @click="check1" round>确定</el-button></div>
                 <el-card class="card" v-if="showThesis1">
-                    <img
-                    src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                    class="image"
-                    />
+                    <img :src="item1['image_link']" class="image">
                     <div style="padding: 14px">
                     <div class="bottom">
                         <h2 id="title">{{ strcut(item1['title']) }}</h2>
@@ -47,10 +44,7 @@
                 <el-input v-model="input2.thesis_id" placeholder="请输入论文序号" />
                 <div><el-button style="margin-top: 10px;" @click="check2" round>确定</el-button></div>
                 <el-card class="card" v-if="showThesis2">
-                    <img
-                        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                        class="image"
-                    />
+                    <img :src="item2['image_link']" class="image">
                     <div style="padding: 14px">
                         <h2 id="title">{{ strcut(item2['title']) }}</h2>
                         <p id="date">{{ item2['publication_date'] }}</p>
@@ -94,7 +88,7 @@ export default {
     },
     methods: {
         strcut(str){
-            if(str.length >= 50) str = str.substring(0, 50) + "...";
+            if(str.length >= 100) str = str.substring(0, 100) + "...";
             return str;
         },
         check1(){
@@ -162,5 +156,9 @@ export default {
 .slider-demo-block .demonstration + .el-slider {
     flex: 0 0 80%;
 }
-
+.image{
+  margin-top: 40px;
+  height: 150px; 
+  width: 250px;
+}
 </style>

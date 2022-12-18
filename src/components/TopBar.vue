@@ -63,7 +63,7 @@
         // 登录/进入用户界面
         toInfor(){
           if(this.$cookies.get('name') == null) this.$router.push("/login");
-          else this.$router.push("/Infor");
+          else this.$router.push("/main");
         },
         // 注册/注销
         removeCookie(){

@@ -7,11 +7,7 @@
       <el-card shadow="hover" v-for="(message, index) in Messages" :key="index">
         <div style="height: 100px">
           <div style="width: 14%;height: 100%;border-radius: 100px;display: inline-block;">
-            <img
-              style="width: 100%; height: 100%; border-radius: 100px"
-              src="@/assets/default-paper-cover.png"
-              class="image"
-            />
+            <img :src="message.image_link" class="image">
           </div>
           <div style="display: inline-block; margin-left: 5%; width: 60%">
             <p class="message" style="font-weight: bold">{{ message.title }}</p>
@@ -38,6 +34,7 @@
                 type="warning"
                 round
                 style="height: 50%; width: 100%; display: inline-block"
+                @click="nolike(message.thesis_id)"
               >
                 <el-icon><Delete /></el-icon>
               </el-button>
@@ -87,7 +84,11 @@ export default {
     return {
       total: 2,
       user_id: "",
-      Messages: null
+      Messages: null,
+      favor: {
+        thesis_id: "",
+        user_name: "",
+      },
     };
   },
   created(){
@@ -95,11 +96,24 @@ export default {
   },
   methods: {
       async getInfor(){
-          this.$http.post('/UserView',{user_name: this.$cookies.get('name')}).then(res=>{
+          this.$http.get('/UserArticle', {
+              params: {'user_name': this.$cookies.get('name')}
+            }).then(res=>{
               this.Messages = res.data['data'];
               this.total = this.Messages.length;
-          })
+            });
       },
+      async nolike(thesis_id){
+            this.favor['user_name'] = (this.$cookies.get('name') == null) ? -1 : this.$cookies.get('name');
+            this.favor['thesis_id'] = thesis_id;
+            this.$http.post('/UserArticle', this.favor).then(res=>{
+              if(res.data['message'] == "success"){
+                alert("取消收藏成功");
+                this.$router.go(0)
+              }
+              else alert(res.data['message']);
+            });
+        }
   },
 }
 </script>
@@ -110,5 +124,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.image{
+  height: 100px; 
+  width: 100px;
 }
 </style>
