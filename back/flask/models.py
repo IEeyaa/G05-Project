@@ -1,4 +1,3 @@
-# 存储数据库模型
 from exts import db
 from sqlalchemy import ForeignKey
 
@@ -9,6 +8,8 @@ class User(db.Model):
     user_name = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(20), nullable=False)
+    city = db.Column(db.String(30), nullable=True)
+    motto = db.Column(db.String(150), nullable=True)
 
     def to_dict(self):
         """
@@ -17,27 +18,26 @@ class User(db.Model):
         :return
         """
         data = {
-            'id': self.user_id,
-            'username': self.user_name
+            'user_id': self.user_id,
+            'user_name': self.user_name,
+            'password': self.password,
+            'email': self.email,
+            'city': self.city,
+            'motto': self.motto
         }
         return data
 
-    def from_dict(self, data, new_user=False, id=-1):
+    def from_dict(self, data, new_user=False):
         """
         将前端发送过来的 json 对象转换为 User 对象
-        :param id:
         :param data:
         :param new_user:
         :return:
         """
 
-        self.user_id = id
-        for field in ['username', 'email']:
+        for field in ['user_name', 'email']:
             if field in data:
-                if field == 'username':
-                    setattr(self, 'user_name', data[field])
-                else:
-                    setattr(self, field, data[field])
+                setattr(self, field, data[field])
             if new_user and 'password' in data:
                 self.password = data['password']
 
@@ -48,7 +48,7 @@ class Thesis(db.Model):
     title = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(150), nullable=False)
     publication_date = db.Column(db.Date)
-    journal = db.Column(db.String(50), nullable=False)
+    image_link = db.Column(db.String(150), nullable=False)
     abstract = db.Column(db.String(1500), nullable=False)
     link = db.Column(db.String(150))
     citation_num = db.Column(db.Integer)
@@ -60,7 +60,7 @@ class Thesis(db.Model):
             'title': self.title,
             'author': self.author,
             'publication_date': self.publication_date,
-            'journal': self.journal,
+            'image_link': self.image_link,
             'abstract': self.abstract,
             'link': self.link,
             'citation_num': self.citation_num,
