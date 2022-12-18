@@ -76,13 +76,13 @@ CREATE TABLE `thesis` (
   `title` varchar(100) NOT NULL,
   `author` varchar(100) NOT NULL,
   `publication_date` date DEFAULT NULL,
-  `journal` varchar(50) NOT NULL,
+  `image_link` varchar(150) DEFAULT NULL,
   `abstract` varchar(1500) NOT NULL,
   `link` varchar(150) DEFAULT NULL,
   `citation_num` int DEFAULT NULL,
   `rating` double DEFAULT NULL,
   PRIMARY KEY (`thesis_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +91,6 @@ CREATE TABLE `thesis` (
 
 LOCK TABLES `thesis` WRITE;
 /*!40000 ALTER TABLE `thesis` DISABLE KEYS */;
-INSERT INTO `thesis` VALUES (1,'ExtremeBERT: A Toolkit for Accelerating Pretraining of Customized BERT','Rui Pan, Shizhe Diao, Jianlin Chen, Tong Zhang','2022-11-30','unknown','In this paper, we present ExtremeBERT, a toolkit for accelerating and customizing BERT pretraining. Our goal is to provide an easy-to-use BERT pretraining toolkit for the research community and industry. Thus, the pretraining of popular language models on customized datasets is affordable with limited resources. Experiments show that, to achieve the same or better GLUE scores, the time cost of our toolkit is over  times less for BERT Base and  times less for BERT Large when compared with the original BERT paper. The documentation and code are released at https://github.com/extreme-bert/extreme-bert under the Apache-2.0 license.','https://paperswithcode.com/paper/extremebert-a-toolkit-for-accelerating',127,9.1),(2,'TorchScale: Transformers at Scale','Shuming Ma, Hongyu Wang, Shaohan Huang, Wenhui Wang, Zewen Chi, Li Dongi','2022-11-23','unknown','Large Transformers have achieved state-of-the-art performance across many tasks. Most open-source libraries on scaling Transformers focus on improving training or inference with better parallelization. In this work, we present TorchScale, an open-source toolkit that allows researchers and developers to scale up Transformers efficiently and effectively. TorchScale has the implementation of several modeling techniques, which can improve modeling generality and capability, as well as training stability and efficiency. Experimental results on language modeling and neural machine translation demonstrate that TorchScale can successfully scale Transformers to different sizes without tears. The library is available at https://aka.ms/torchscale.','https://paperswithcode.com/paper/torchscale-transformers-at-scale',885,9.2),(3,'Compressing Volumetric Radiance Fields to 1 MB','Lingzhi Li, Zhen Shen, Zhongshu Wang, Li Shen, Liefeng Bo','2022-11-29','unknown','Approximating radiance fields with volumetric grids is one of promising directions for improving NeRF, represented by methods like Plenoxels and DVGO, which achieve super-fast training convergence and real-time rendering. However, these methods typically require a tremendous storage overhead, costing up to hundreds of megabytes of disk space and runtime memory for a single scene. We address this issue in this paper by introducing a simple yet effective framework, called vector quantized radiance fields (VQRF), for compressing these volume-grid-based radiance fields. We first present a robust and adaptive metric for estimating redundancy in grid models and performing voxel pruning by better exploring intermediate outputs of volumetric rendering. A trainable vector quantization is further proposed to improve the compactness of grid models. In combination with an efficient joint tuning strategy and post-processing, our method can achieve a compression ratio of 100 by reducing the overall model size to 1 MB with negligible loss on visual quality. Extensive experiments demonstrate that the proposed framework is capable of achieving unrivaled performance and well generalization across multiple methods with distinct volumetric structures, facilitating the wide use of volumetric radiance fields methods in real-world applications.','https://paperswithcode.com/paper/compressing-volumetric-radiance-fields-to-1',107,9.3);
 /*!40000 ALTER TABLE `thesis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +105,9 @@ CREATE TABLE `user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `user_name` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `email` varchar(20) NOT NULL,
+  `email` varchar(40) NOT NULL,
+  `city` varchar(30) DEFAULT NULL,
+  `motto` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -129,4 +130,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-12 14:48:01
+-- Dump completed on 2022-12-18 15:36:03
