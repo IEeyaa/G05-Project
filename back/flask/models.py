@@ -7,7 +7,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     user_name = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(40), nullable=False)
     city = db.Column(db.String(30), nullable=True)
     motto = db.Column(db.String(150), nullable=True)
 
@@ -45,11 +45,11 @@ class User(db.Model):
 class Thesis(db.Model):
     __tablename__ = "thesis"
     thesis_id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(150), nullable=False)
     author = db.Column(db.String(150), nullable=False)
     publication_date = db.Column(db.Date)
     image_link = db.Column(db.String(150), nullable=False)
-    abstract = db.Column(db.String(1500), nullable=False)
+    abstract = db.Column(db.String(2500), nullable=False)
     link = db.Column(db.String(150))
     citation_num = db.Column(db.Integer)
     rating = db.Column(db.Float)
