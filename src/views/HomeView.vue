@@ -42,7 +42,7 @@
               <el-pagination
                 class="page"
                 layout="prev, pager, next"
-                :total="4396"
+                :total="4000"
                 @current-change="pageswitch()"
                 v-model:current-page="currentPage"
               />

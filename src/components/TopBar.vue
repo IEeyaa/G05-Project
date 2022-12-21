@@ -42,7 +42,7 @@
 
       <el-menu-item index="/search"> 论文搜索 </el-menu-item>
       <el-menu-item index="/compare"> 论文比较 </el-menu-item>
-      <el-menu-item index="/main"> 用户中心 </el-menu-item>
+      <el-menu-item v-if=enter_user index="/main"> 用户中心 </el-menu-item>
       <el-menu-item index="/statistics"> 数据统计 </el-menu-item>
     </el-menu>
   </template>
@@ -59,6 +59,11 @@
         }
     );
   export default {
+      data(){
+        return{
+            enter_user: (this.$cookies.get('name') != null) ? true:false
+        }
+      },
       methods: {
         // 登录/进入用户界面
         toInfor(){

@@ -13,9 +13,9 @@
         <div class="relatedpaper">
             <h2>相关论文</h2><el-divider border-style="dashed" />
             <el-card v-for="item in linkData" :key="item" shadow="hover" class="paper" @click="info">
-                <h4 class="papertitle">{{item['title']}}</h4>
-                <p class="paperdate">{{item['publication_date'] + "  " + item['author']}}</p>
-                <p class="paperabstract">{{item['abstract']}}</p>
+                <h4 class="papertitle">{{ item['title'] }}</h4>
+                <p class="paperdate">{{ item['publication_date'] + "  " + item['author']}}</p>
+                <p class="paperabstract">{{ item['abstract'] }}</p>
             </el-card>
         </div>
     </body>
@@ -43,7 +43,7 @@ export default {
             this.$http.post('/InforView',{thesis_id: this.$route.query.id}).then(res=>{
                 this.data = res.data['data'][0];
                 this.tags = res.data['data'][1]['keywords'];
-                this.linkData = res.data['data'][2];
+                this.linkData = res.data['similarity'];
             })
         },
         async toLink(link){

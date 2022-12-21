@@ -22,12 +22,7 @@
           autocomplete="off"
         ></el-input>
       </el-form-item>
-      <el-form-item label="校验码：" prop="verify">
-        <el-input
-          placeholder="请输入校验码:216sadasdsad21352asdas55d5465sad@#sa2d6sa5"
-          v-model.number="ruleForm.verify"
-        ></el-input>
-      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')"
           >提交</el-button
@@ -42,24 +37,20 @@
 export default {
   name: "AccountEditor",
   data() {
-    var checkAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("校验码不能为空"));
-      }
-      setTimeout(() => {
-        if (value !== "216sadasdsad21352asdas55d5465sad@#sa2d6sa5") {
-          callback(new Error("校验码错误"));
-        } else {
-          callback();
-        }
-      }, 1000);
-    };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (value.length <= 6) {
-          callback(new Error("密码长度不能低于6"));
+        if (
+          !/^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)([^\u4e00-\u9fa5\s]){6,20}$/.test(
+            value
+          )
+        ) {
+          callback(
+            new Error(
+              '请输入6-20位英文字母,数字或者符号 且至少包含两种'
+            )
+          );
         }
         if (this.ruleForm.checkPass !== "") {
           this.$refs.ruleForm.validateField("checkPass");
@@ -78,6 +69,7 @@ export default {
     };
     return {
       ruleForm: {
+        name: "",
         pass: "",
         checkPass: "",
         verify: "",
@@ -85,7 +77,6 @@ export default {
       rules: {
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        verify: [{ validator: checkAge, trigger: "blur" }],
       },
     };
   },
@@ -93,7 +84,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.ruleForm.name = this.$cookies.get('name')
+          this.$http.post('/UserPassword', this.ruleForm).then(res=>{
+              if(res.data['message'] == "success"){
+                alert("修改成功");
+                this.$router.push('/main');
+              }
+              else alert(res.data['message']);
+            });
         } else {
           console.log("error submit!!");
           return false;

@@ -11,7 +11,7 @@ import VueCookies from 'vue-cookies'
 const app = createApp(App)
 
 axios.defaults.baseURL = "http://127.0.0.1:5000"
-// axios.defaults.baseURL = "http://10.192.10.179:5000"
+// axios.defaults.baseURL = "http://10.181.217.98:5000"
 
 app.config.globalProperties.$http = axios
 app.config.globalProperties.$cookies = VueCookies
