@@ -46,6 +46,7 @@
                 type="primary"
                 round
                 style="height: 50%; width: 100%; display: inline-block"
+                @click="toInfor(message.thesis_id)"
               >
                 <el-icon><Edit /></el-icon>
               </el-button>
@@ -113,7 +114,15 @@ export default {
               }
               else alert(res.data['message']);
             });
-        }
+        },
+        async toInfor(id){
+          this.$router.push({
+            path: '/Infor',
+            query: {
+              id: id
+            }
+          })
+        },
   },
 }
 </script>
