@@ -3,8 +3,66 @@ from flask import Blueprint, jsonify, request
 from util import Result
 from exts import db
 from models import Thesis, User, Favorites
+import pandas as pd
+import config
+from sqlalchemy import create_engine
 
 bp = Blueprint("result", __name__, url_prefix="/")
+
+def get_rating(citation_rank:int, date_rank:int, total:int, rank_thre:int):
+    citation_rating = date_rating = 0
+    if citation_rank > rank_thre:         #citation_num<18
+        citation_rating = ((total-citation_rank)/(total-rank_thre))*0.4+0.2
+    else:
+        citation_rating = ((rank_thre-citation_rank)/(rank_thre-1))*0.4+0.6
+    if date_rank > 3500:
+        date_rating = ((total-date_rank)/(total-3500))*0.4+0.2
+    else:
+        date_rating = ((3500-date_rank)/(3500-1))*0.4+0.6
+    return citation_rating, date_rating
+
+@bp.route("CompareThesis", methods=['POST'])
+def comp_thesis():
+    data = request.get_json()
+    if not data:
+        return Result.error(400, 'post 必须是json数据')
+    thesis_id1 = int(data['thesis_id1'])
+    thesis_id2 = int(data['thesis_id2'])
+    engine = create_engine('mysql+pymysql://{}:{}@{}:{}/{}'.format(config.USERNAME, config.PASSWORD, config.HOSTNAME, config.PORT, config.DATABASE))
+    sql = '''
+          select thesis_id, publication_date, citation_num from thesis;
+          '''
+    df = pd.read_sql_query(sql, engine)
+    df['publication_date'] = df['publication_date'].astype('datetime64[ns]')
+    df['citation_rank'] = df.citation_num.rank(method='max', ascending=False)
+    df['date_rank'] = df.publication_date.rank(method='max', ascending=False)
+    print(df)
+    print(df.describe())
+    citation_rank1 = date_rank1 = -1
+    citation_rank2 = date_rank2 = -1
+    citation_thre = 18
+    rank_thre = 675
+    for row in df.itertuples():
+        if row[3] == citation_thre:
+            rank_thre = row[4]
+        if int(row[1]) == thesis_id1:
+            print(row)
+            citation_rank1 = row[4]
+            date_rank1 = row[5]
+        if int(row[1]) == thesis_id2:
+            print(row)
+            citation_rank2 = row[4]
+            date_rank2 = row[5]
+    if date_rank1 == -1 or date_rank2 == -1:
+        return Result.error("403", "无效论文编号")
+    total = len(df)
+    print(citation_rank1, date_rank1, citation_rank2, date_rank2)
+    citation_rating1, date_rating1 = get_rating(citation_rank1, date_rank1, total, rank_thre)
+    citation_rating2, date_rating2 = get_rating(citation_rank2, date_rank2, total, rank_thre)
+    ret = [{'citation_rating1': citation_rating1, 'citation_rating2': citation_rating2, 
+            'date_rating1': date_rating1, 'date_rating2': date_rating2}]
+    return Result.success(ret)
+
 
 
 @bp.route("InforView", methods=['POST'])
