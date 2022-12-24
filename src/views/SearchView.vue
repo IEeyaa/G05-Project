@@ -17,32 +17,40 @@
     </el-row>
     <el-row :gutter="20" v-if="showResult">
         <el-col :span="20" :offset="2">
-            <h1 style="margin-left:10px">Search Results</h1>
             <!-- 对card进行相关的设计 -->
-                <el-card v-for="item in data" :key="item" shadow="always">
+              <el-card v-for="item in data" :key="item" shadow="always">
                 <el-row :gutter="20">
-                    <!-- 图片部分 -->
-                    <el-col :span="5">
-                    <img
-                        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                        class="image"
-                    />
-                    </el-col>
-                    <!-- 文字部分 -->
-                    <el-col :span="13" :offset="1">
-                    <h1 id="title" v-html="item['title']"></h1>
-                    <p id="abstract" v-html="item['abstract']"></p></el-col>
-                    <!-- 按钮部分 -->
-                    <el-col :span="5">
+                  <!-- 图片部分 -->
+                  <el-col :span="5">
+                    <img :src="item['image_link']" class="image">
+                  </el-col>
+                  <!-- 文字部分 -->
+                  <el-col :span="13" :offset="1">
+                    <h2 id="title">{{ strcut(item['title']) }}</h2>
+                    <p id="date">{{ item['publication_date'] }}</p>
+                    <p id="author">{{ item['author'] }}</p>
+                    <p id="abstract">{{ strcut(item['abstract']) }}</p>
+                  </el-col>
+                  <!-- 按钮部分 -->
+                  <el-col :span="5">
                     <div style="text-align: -webkit-center">
-                        <el-button type="warning" :icon="Star" round>收藏</el-button>
-                        <p style="color:grey">Likes: 114514/hour</p>
-                        <el-button type="primary" style="width:150px" @click="toInfor(item['id'])">Paper</el-button>
-                        <el-button type="success" style="width:150px">Code</el-button>
+                      <el-button type="warning" :icon="Star" @click="like(item['thesis_id'])" round>Like</el-button>
+                      <p style="color:grey">{{ "citation: " + item['citation_num'] + " times" }}</p>
+                      <el-button type="primary" style="width:150px" @click="toInfor(item['thesis_id'])">详情</el-button>
+                      <el-button type="success" style="width:150px" @click="toLink(item['link'])">PDF</el-button>
                     </div>
-                    </el-col>
+                  </el-col>
                 </el-row>
-                </el-card>
+              </el-card>
+
+              <el-pagination
+                class="page"
+                layout="prev, pager, next"
+                :total="200"
+                @current-change="pageswitch()"
+                v-model:current-page="currentPage"
+              />
+
         </el-col>
         <el-col :span="2"></el-col>
     </el-row>
