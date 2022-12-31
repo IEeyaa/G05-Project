@@ -16,6 +16,7 @@
                 <h4 class="papertitle">{{ item['title'] }}</h4>
                 <p class="paperdate">{{ item['publication_date'] + "  " + item['author']}}</p>
                 <p class="paperabstract">{{ item['abstract'] }}</p>
+                <el-button type="primary" style="width:150px" @click="toInfor(item['thesis_id'])">详情</el-button>
             </el-card>
         </div>
     </body>
@@ -23,6 +24,7 @@
 
 <script>
 export default {
+    inject: ['reload'],
     data(){
         return {
             data: null,
@@ -40,11 +42,13 @@ export default {
     },
     methods: {
         async getInfor(){
-            this.$http.post('/InforView',{thesis_id: this.$route.query.id}).then(res=>{
+            this.$http.get('/InforView', {
+              params: {'thesis_id': this.$route.query.id}
+            }).then(res=>{
                 this.data = res.data['data'][0];
-                this.tags = res.data['data'][1]['keywords'];
+                this.tags = res.data['data'][1];
                 this.linkData = res.data['similarity'];
-            })
+            });
         },
         async toLink(link){
           window.open(link, '_blank')
@@ -56,6 +60,14 @@ export default {
               if(res.data['message'] == "success") alert("收藏成功");
               else alert(res.data['message']);
             });
+        },
+        async toInfor(id){
+          this.$router.push({
+            name: 'information',
+            query: {
+              id: id
+            }
+          })
         },
     },
 }

@@ -222,13 +222,13 @@ export default {
             return str;
         },
         check1(){
-            this.$http.post('/InforView', this.input1).then(res=>{
+            this.$http.post('/GetInfor', this.input1).then(res=>{
                 this.showThesis1 = true;
                 this.item1 = res.data['data'];
             });
         },
         check2(){
-            this.$http.post('/InforView', this.input2).then(res=>{
+            this.$http.post('/GetInfor', this.input2).then(res=>{
                 this.showThesis2 = true;
                 this.item2 = res.data['data'];
             });
