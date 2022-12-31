@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey
 
 class User(db.Model):
     __tablename__ = "user"
+    __table_args__ = {'extend_existing': True}
     user_id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     user_name = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
@@ -44,6 +45,7 @@ class User(db.Model):
 
 class Thesis(db.Model):
     __tablename__ = "thesis"
+    __table_args__ = {'extend_existing': True}
     thesis_id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     title = db.Column(db.String(150), nullable=False)
     author = db.Column(db.String(150), nullable=False)
@@ -71,5 +73,20 @@ class Thesis(db.Model):
 
 class Favorites(db.Model):
     __tablename__ = "favorites"
+    __table_args__ = {'extend_existing': True}
     user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False, primary_key=True)
     thesis_id = db.Column(db.Integer, ForeignKey('thesis.thesis_id'), nullable=False, primary_key=True)
+
+
+class Keyword(db.Model):
+    __tablenam__ = "keyword"
+    __table_args__ = {'extend_existing': True}
+    data = db.Column(db.String(20), nullable=False, primary_key=True)
+    value = db.Column(db.Integer, nullable=True)
+
+    def to_dict(self):
+        data = {
+            'data': self.data,
+            'value': self.value
+        }
+        return data

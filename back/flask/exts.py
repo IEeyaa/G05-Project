@@ -1,5 +1,6 @@
 # 存储扩展
 
-# flask-sqlalchemy
+# flask_file-sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
+
 db = SQLAlchemy()
